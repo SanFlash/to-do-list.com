@@ -1,0 +1,134 @@
+body {
+    background: linear-gradient(to right, #89f7fe, #66a6ff);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.todo-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    color: #66a6ff;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#taskInput {
+    width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #66a6ff;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#taskInput:focus {
+    border-color: #89f7fe;
+}
+
+#addTaskButton {
+    width: 30%;
+    padding: 10px;
+    background: #66a6ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#addTaskButton:hover {
+    background: #ff9a9e;
+    transform: scale(1.05);
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    background: #ff9a9e;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s, transform 0.3s, opacity 0.3s;
+    transform: scale(1);
+    animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.task-item.completed {
+    background: #a1c4fd;
+    text-decoration: line-through;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+.task-item.removing {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.task-item button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.task-item button:hover {
+    color: #000;
+}
