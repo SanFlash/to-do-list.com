@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful To-Do List</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Workspace OS</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="todo-container">
-        <h1>To-Do List</h1>
-        <div class="input-container">
-            <input type="text" id="taskInput" placeholder="Add a new task...">
-            <button id="addTaskButton">Add Task</button>
-        </div>
-        <ul id="taskList" class="task-list"></ul>
-    </div>
-
-    <script src="script.js"></script>
+  <div class="shell">
+    <aside class="sidebar glass">
+      <div class="brand"><span class="logo">Q</span><div><strong>QA Workspace OS</strong><small>AI command center</small></div></div>
+      <nav id="roleNav"></nav>
+      <button id="themeToggle" class="ghost">Toggle theme</button>
+    </aside>
+    <main class="desktop">
+      <header class="topbar glass">
+        <div><p class="eyebrow">Enterprise QA operating system</p><h1>One intelligent workspace for every project, test, report, and conversation.</h1></div>
+        <div class="search"><span>⌘K</span><input id="smartSearch" placeholder="Search projects, bugs, KT, Slack, Jira, Drive, meetings..."></div>
+      </header>
+      <section class="hero-grid">
+        <article class="ai-card glass"><h2>AI Company Brain</h2><p id="assistantFocus">Ask for Payment KT, checkout regression, EOD gaps, or yesterday's changes.</p><div class="prompt-row"><button>Generate regression</button><button>Summarize today</button><button>Create release checklist</button></div></article>
+        <article class="status-card glass"><span>Live users</span><strong id="liveUsers">248</strong><small>Presence, tracker, meetings, and automation update in realtime.</small></article>
+        <article class="status-card glass"><span>Notifications</span><strong id="notificationCount">39</strong><small>Unified from Slack, Jira, GitHub, Jenkins, KT, reports, and calendars.</small></article>
+      </section>
+      <section><div class="section-title"><h2>Live Project Cards</h2><span class="pulse">WebSocket/SSE live</span></div><div id="projects" class="project-grid"></div></section>
+      <section class="command-center glass"><div><p class="eyebrow">Project Command Center</p><h2 id="commandTitle">Select a project mission room</h2><p id="commandMeta">Overview, team, activity, communication, reports, KT, testing, automation, bugs, release, analytics, integrations, and AI assistant.</p></div><div id="commandTabs" class="tabs"></div><div id="activityFeed" class="feed"></div></section>
+      <section class="workspace-grid"><article class="glass"><h2>Custom Dashboard Widgets</h2><div id="widgets" class="chips"></div></article><article class="glass"><h2>Integrations Marketplace</h2><div id="integrations" class="chips integrations"></div></article><article class="glass"><h2>Security & Platform</h2><ul class="checklist"><li>OAuth, JWT, MFA, RBAC</li><li>Audit logs, encrypted storage, rate limiting</li><li>REST APIs, live events, plugin architecture</li><li>Monitoring, caching, background jobs ready architecture</li></ul></article></section>
+    </main>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
