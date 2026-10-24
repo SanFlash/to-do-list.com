@@ -4,7 +4,7 @@ A premium, responsive productivity workspace with a glass-and-walnut visual lang
 
 ## Features
 
-- Task creation, editing, completion, deletion, priorities, due dates, descriptions, estimates, and subtasks
+- Task creation from My Day, Inbox, and project views; editing, completion, deletion, priorities, due dates, descriptions, estimates, and interactive subtasks
 - My Day, Inbox, Upcoming, All Tasks, project views, search, filters, and priority sorting
 - Projects with names, descriptions, and accent colors
 - GSAP entrance animation, animated 3D-style hero sculpture, task transitions, and focus-scene motion
@@ -48,6 +48,10 @@ Authentication, shared workspaces, realtime collaboration, cloud database persis
 - `style.css` — responsive design tokens, glass materials, layouts, mobile navigation, and reduced-motion support
 - `script.js` — task/project state, local persistence, search commands, GSAP motion, and focus timer
 - `vercel.json` — Vercel routing defaults and security headers
+
+## Automated validation
+
+A GitHub Actions workflow checks JavaScript syntax and verifies required static app files on every push and pull request.
 
 ## QA checklist
 
