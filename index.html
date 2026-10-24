@@ -1,21 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful To-Do List</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d10" />
+  <meta name="description" content="AURORA — a cinematic, tactile workspace for your tasks, projects, and focus." />
+  <title>AURORA — Productivity, in a new dimension</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/Flip.min.js"></script>
+  <script defer src="/script.js"></script>
 </head>
 <body>
-    <div class="todo-container">
-        <h1>To-Do List</h1>
-        <div class="input-container">
-            <input type="text" id="taskInput" placeholder="Add a new task...">
-            <button id="addTaskButton">Add Task</button>
-        </div>
-        <ul id="taskList" class="task-list"></ul>
-    </div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="app-shell">
+    <aside class="sidebar glass-panel" id="sidebar">
+      <a class="brand" href="#" aria-label="Aurora home"><span class="brand-mark"><span></span><span></span><span></span></span><span>AURORA</span><sup>®</sup></a>
+      <div class="workspace-switch"><div class="workspace-avatar">S</div><div class="workspace-copy"><strong>Personal space</strong><span>Free workspace</span></div><span class="chevron">⌄</span></div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="today"><span class="nav-icon">◷</span><span>My day</span><kbd>1</kbd></button>
+        <button class="nav-item" data-view="inbox"><span class="nav-icon">↳</span><span>Inbox</span><span class="nav-count" id="inboxCount">0</span></button>
+        <button class="nav-item" data-view="upcoming"><span class="nav-icon">▦</span><span>Upcoming</span></button>
+        <button class="nav-item" data-view="all"><span class="nav-icon">☷</span><span>All tasks</span></button>
+      </nav>
+      <div class="nav-label projects-label">YOUR PROJECTS <button id="addProjectButton" class="tiny-plus" aria-label="Add project">+</button></div>
+      <nav id="projectNav" class="project-nav" aria-label="Projects"></nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-focus">
+        <div class="focus-orb" aria-hidden="true"><div></div></div>
+        <div class="focus-card-title">Find your flow</div>
+        <p>One thing at a time. Everything else can wait.</p>
+        <button id="startFocusSide" class="focus-launch">Enter focus mode <span>↗</span></button>
+      </div>
+      <button class="nav-item settings-link" data-view="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+      <div class="profile-row"><div class="profile-avatar">SN</div><div class="profile-copy"><strong>Your workspace</strong><span>Local profile</span></div><button id="themeToggle" class="icon-button theme-toggle" aria-label="Toggle theme" title="Toggle theme">◐</button></div>
+    </aside>
 
-    <script src="script.js"></script>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash">/</span><strong id="breadcrumbCurrent">My day</strong></div>
+        <div class="topbar-actions">
+          <button class="search-trigger" id="searchOpen"><span>⌕</span><span>Search anything...</span><kbd>⌘ K</kbd></button>
+          <button class="icon-button notification-button" id="notificationButton" aria-label="Notifications" title="Notifications">♧<i id="notificationDot"></i></button>
+          <button class="avatar-small" aria-label="Profile">S</button>
+        </div>
+      </header>
+
+      <section class="view-panel" id="view-today">
+        <div class="welcome-row">
+          <div class="welcome-copy">
+            <div class="eyebrow"><span class="live-dot"></span><span id="currentDate">YOUR PERSONAL SPACE · TODAY</span></div>
+            <h1>Make room for<br /><em>what matters.</em></h1>
+            <p class="welcome-subtitle">A little progress, consistently made, becomes something remarkable.</p>
+          </div>
+          <div class="hero-art" aria-label="Abstract animated three-dimensional glass sculpture">
+            <div class="hero-art-glow"></div>
+            <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+            <div class="hero-crystal"><div class="crystal-face face-a"></div><div class="crystal-face face-b"></div><div class="crystal-core"></div></div>
+            <div class="hero-art-caption"><span class="caption-line"></span> YOUR SPACE, IN MOTION</div>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card glass-panel"><div class="stat-top"><span>OPEN TASKS</span><span class="stat-icon">◌</span></div><div class="stat-value" id="openStat">04</div><div class="stat-foot"><span class="stat-dot amber"></span><span>Things in motion</span></div><div class="stat-sparkline"><i style="height:35%"></i><i style="height:55%"></i><i style="height:44%"></i><i style="height:77%"></i><i style="height:54%"></i><i style="height:89%"></i><i style="height:68%"></i><i style="height:100%"></i></div></article>
+          <article class="stat-card glass-panel"><div class="stat-top"><span>COMPLETED</span><span class="stat-icon">↗</span></div><div class="stat-value" id="doneStat">08</div><div class="stat-foot"><span class="stat-dot green"></span><span>Every finish counts</span></div><div class="stat-progress"><span id="completionProgress"></span></div></article>
+          <article class="stat-card glass-panel"><div class="stat-top"><span>FOCUS TIME</span><span class="stat-icon">◷</span></div><div class="stat-value" id="focusStat">0<span class="stat-unit">m</span></div><div class="stat-foot"><span class="stat-dot lilac"></span><span>Today's deep work</span></div><div class="stat-progress purple-progress"><span id="focusProgress"></span></div></article>
+          <article class="stat-card quote-card"><div class="quote-mark">“</div><p>Great things are done by a series of small things brought together.</p><span>— VINCENT VAN GOGH</span><div class="quote-deco">✳</div></article>
+        </div>
+        <div class="section-heading"><div><div class="eyebrow">THE IMPORTANT THINGS</div><h2>Today's focus <span class="heading-count" id="todayCount">0</span></h2></div><div class="section-controls"><button class="filter-chip active" data-filter="all">All tasks</button><button class="filter-chip" data-filter="active">To do</button><button class="filter-chip" data-filter="completed">Done</button><button class="add-task-button" id="addTaskTop"><span>+</span> New task</button></div></div>
+        <form id="quickTaskForm" class="quick-add glass-panel"><span class="quick-add-plus">+</span><input id="taskInput" autocomplete="off" maxlength="180" placeholder="What's on your mind? Add a task..." aria-label="New task title" /><select id="taskPriority" aria-label="Task priority"><option value="medium">◉ Medium</option><option value="high">↑ High</option><option value="low">↓ Low</option><option value="urgent">⚡ Urgent</option></select><button type="submit">Add task <span>↗</span></button></form>
+        <div class="task-list-toolbar"><span id="taskListLabel">YOUR TASKS</span><button id="sortTasks" class="text-button">Priority first ↕</button></div>
+        <div id="taskList" class="task-list" aria-live="polite"></div>
+        <div id="emptyState" class="empty-state glass-panel" hidden><div class="empty-orb">✳</div><h3>A little breathing room.</h3><p>No tasks here. Add something you want to move forward.</p><button id="emptyAddButton" class="add-task-button">＋ Add a task</button></div>
+        <div class="bottom-note"><span class="bottom-note-icon">✳</span><span>Progress over perfection. You're doing better than you think.</span><span class="note-line"></span><span id="bottomDone">0% COMPLETE</span></div>
+      </section>
+
+      <section class="view-panel secondary-view" id="view-inbox" hidden><div class="page-intro"><div class="eyebrow">CAPTURE WITHOUT CLUTTER</div><h1>Your <em>inbox.</em></h1><p>A safe place for every thought, before it becomes a plan.</p></div><div id="inboxTasks" class="task-list"></div><div class="empty-state glass-panel" id="inboxEmpty" hidden><h3>Inbox zero.</h3><p>Every thought has a place. Nice work.</p></div></section>
+      <section class="view-panel secondary-view" id="view-upcoming" hidden><div class="page-intro"><div class="eyebrow">LOOKING AHEAD</div><h1>On the <em>horizon.</em></h1><p>Your open tasks, grouped by when you want to get them done.</p></div><div class="date-groups" id="upcomingTasks"></div></section>
+      <section class="view-panel secondary-view" id="view-all" hidden><div class="page-intro"><div class="eyebrow">THE BIG PICTURE</div><h1>All your <em>tasks.</em></h1><p>Every little thing, organized exactly how you need it.</p></div><div class="all-controls"><input id="globalTaskSearch" placeholder="Filter tasks by title..." aria-label="Filter tasks" /><select id="allPriorityFilter" aria-label="Filter by priority"><option value="all">All priorities</option><option value="urgent">Urgent</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><select id="allStatusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="active">Open</option><option value="completed">Completed</option></select></div><div id="allTasksList" class="task-list"></div></section>
+      <section class="view-panel secondary-view" id="view-project" hidden><div class="page-intro"><div class="eyebrow">PROJECT SPACE</div><h1 id="projectTitle">Project <em>overview.</em></h1><p id="projectSubtitle">A clear view of the next steps.</p></div><div id="projectTasks" class="task-list"></div></section>
+      <section class="view-panel secondary-view" id="view-settings" hidden><div class="page-intro"><div class="eyebrow">MAKE IT YOURS</div><h1>Quietly <em>personal.</em></h1><p>Set up your space to support the way you work.</p></div><div class="settings-card glass-panel"><h3>Appearance</h3><p>Choose the atmosphere for your workspace.</p><div class="settings-options"><button data-theme="dark" class="theme-option active"><span class="theme-preview dark-preview"></span>Obsidian <small>Dark</small></button><button data-theme="light" class="theme-option"><span class="theme-preview light-preview"></span>Ivory <small>Light</small></button></div><label class="setting-row"><span><strong>Reduced motion</strong><small>Minimize non-essential animation</small></span><input type="checkbox" id="reducedMotionToggle" /></label><label class="setting-row"><span><strong>3D ambient sculpture</strong><small>Show the animated hero artwork</small></span><input type="checkbox" id="sceneToggle" checked /></label><div class="settings-foot"><button class="text-button" id="exportData">Export your tasks ↗</button><button class="text-button danger-text" id="clearCompleted">Clear completed tasks</button></div></div><div class="settings-card glass-panel"><h3>Your data</h3><p>Tasks and preferences are stored locally in this browser. This version has no account sync or server-side backup.</p><div class="storage-status"><span class="live-dot"></span>Local storage active</div></div></section>
+
+      <footer class="app-footer"><span>© 2026 AURORA STUDIO</span><span>DESIGNED FOR A LITTLE MORE CLARITY <b>✳</b></span><span id="storageLabel">SAVED LOCALLY</span></footer>
+    </main>
+  </div>
+
+  <div class="mobile-bottom-nav"><button data-view="today" class="active"><span>◷</span>Today</button><button data-view="inbox"><span>↳</span>Inbox</button><button data-view="upcoming"><span>▦</span>Upcoming</button><button data-view="all"><span>☷</span>All tasks</button></div>
+
+  <div class="modal-backdrop" id="taskModalBackdrop" hidden><section class="modal glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><div class="eyebrow">MAKE IT HAPPEN</div><h2 id="modalTitle">New <em>task.</em></h2></div><button class="icon-button modal-close" data-close-modal aria-label="Close">×</button></div><form id="taskDetailForm"><label class="field-label">Task title<input id="detailTitle" required maxlength="180" placeholder="Give it a clear name" /></label><label class="field-label">Description<textarea id="detailDescription" rows="3" maxlength="3000" placeholder="Anything useful to remember..."></textarea></label><div class="field-grid"><label class="field-label">Priority<select id="detailPriority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label><label class="field-label">Due date<input id="detailDueDate" type="date" /></label></div><div class="field-grid"><label class="field-label">Project<select id="detailProject"><option value="inbox">Inbox</option></select></label><label class="field-label">Estimate<select id="detailEstimate"><option value="15">15 minutes</option><option value="25" selected>25 minutes</option><option value="45">45 minutes</option><option value="60">1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option></select></label></div><label class="field-label">Subtasks <span class="optional-label">ONE PER LINE</span><textarea id="detailSubtasks" rows="2" placeholder="Research requirements&#10;Share a first draft"></textarea></label><div class="modal-actions"><button type="button" class="text-button" data-close-modal>Cancel</button><button class="primary-button" type="submit">Save task <span>↗</span></button></div></form></section></div>
+
+  <div class="modal-backdrop" id="projectModalBackdrop" hidden><section class="modal glass-panel small-modal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle"><div class="modal-head"><div><div class="eyebrow">A NEW CHAPTER</div><h2 id="projectModalTitle">New <em>project.</em></h2></div><button class="icon-button modal-close" data-close-project aria-label="Close">×</button></div><form id="projectForm"><label class="field-label">Project name<input id="projectNameInput" required maxlength="50" placeholder="e.g. Design refresh" /></label><label class="field-label">Description<input id="projectDescriptionInput" maxlength="140" placeholder="What's this project about?" /></label><label class="field-label">Color<select id="projectColorInput"><option value="#d6b77a">Champagne</option><option value="#9c91ff">Iris</option><option value="#7cb8a2">Sage</option><option value="#ee917e">Terracotta</option><option value="#82a9d9">Glacier</option></select></label><div class="modal-actions"><button type="button" class="text-button" data-close-project>Cancel</button><button class="primary-button" type="submit">Create project ↗</button></div></form></section></div>
+
+  <div class="modal-backdrop" id="searchBackdrop" hidden><section class="search-modal glass-panel" role="dialog" aria-modal="true" aria-label="Search tasks"><div class="search-modal-input"><span>⌕</span><input id="commandSearchInput" placeholder="Search tasks or jump to a view..." autocomplete="off" /><kbd>ESC</kbd></div><div class="command-results" id="commandResults"></div><div class="command-footer"><span>↑↓ Navigate</span><span>↵ Select</span><span>ESC Close</span></div></section></div>
+
+  <div class="modal-backdrop" id="focusBackdrop" hidden><section class="focus-modal glass-panel" role="dialog" aria-modal="true" aria-label="Focus session"><button class="icon-button focus-exit" data-close-focus aria-label="Exit focus mode">×</button><div class="eyebrow"><span class="live-dot"></span> PROTECT YOUR ATTENTION</div><div class="focus-scene" aria-hidden="true"><div class="focus-ring ring-one"></div><div class="focus-ring ring-two"></div><div class="focus-glass"></div></div><div class="focus-mode-title">Do less, <em>with intention.</em></div><p class="focus-task-name" id="focusTaskName">Choose one thing to move forward.</p><div class="timer-display" id="timerDisplay">25:00</div><div class="timer-progress"><span id="timerProgress"></span></div><div class="timer-controls"><button id="timerReset" class="icon-button" aria-label="Reset timer">↺</button><button id="timerToggle" class="primary-button"><span>▶</span> Begin focus</button><button id="timerMode" class="icon-button" aria-label="Switch timer mode" title="Switch between focus and break">◷</button></div><div class="timer-caption" id="timerCaption">25 MIN FOCUS SESSION</div></section></div>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <noscript><div class="noscript-message">AURORA needs JavaScript enabled to organize your tasks.</div></noscript>
 </body>
 </html>
