@@ -1,0 +1,33 @@
+name: Validate AURORA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate JavaScript syntax
+        run: node --check script.js
+      - name: Verify deployment files
+        run: |
+          test -s index.html
+          test -s style.css
+          test -s script.js
+          test -s vercel.json
+          grep -q 'id="quickTaskForm"' index.html
+          grep -q 'data-action="toggle-subtask"' script.js
+          grep -q 'function filteredToday' script.js
+          echo "Static app files and key task flows are present."
