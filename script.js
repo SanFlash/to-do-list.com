@@ -25,10 +25,12 @@
   function makeId(){return (globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,9);}
   function safeRead(key,fallback){try{const data=JSON.parse(localStorage.getItem(key));return data??fallback;}catch{return fallback;}}
   let tasks = safeRead(STORAGE_KEY,null);
-  if(!Array.isArray(tasks)){tasks=initialTasks;saveTasks();}
+  const seedTasks = !Array.isArray(tasks);
+  if(seedTasks) tasks=initialTasks;
   tasks = tasks.filter(t=>t&&typeof t.id==='string'&&typeof t.title==='string').map(t=>({...t,status:t.status==='completed'?'completed':'active',priority:PRIORITIES[t.priority]!==undefined?t.priority:'medium',subtasks:Array.isArray(t.subtasks)?t.subtasks:[]}));
   let projects = safeRead(PROJECTS_KEY,null);
-  if(!Array.isArray(projects)){projects=defaultProjects;saveProjects();}
+  const seedProjects = !Array.isArray(projects);
+  if(seedProjects) projects=defaultProjects;
   projects = projects.filter(p=>p&&typeof p.id==='string'&&typeof p.name==='string');
   let settings = safeRead(SETTINGS_KEY,{theme:document.body.classList.contains('light-theme')?'light':'dark',reducedMotion:window.matchMedia('(prefers-reduced-motion: reduce)').matches,scene:true});
   let activeView = 'today', activeProjectId = null, currentFilter='all', prioritySort=true, editingId=null, focusTaskId=null;
@@ -37,6 +39,9 @@
   const saveTasks=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(tasks));$('#storageLabel').textContent='SAVED LOCALLY';}catch{$('#storageLabel').textContent='STORAGE FULL';toast('Browser storage is full. Export your tasks to keep a backup.',true);}};
   const saveProjects=()=>{try{localStorage.setItem(PROJECTS_KEY,JSON.stringify(projects));}catch{}};
   const saveSettings=()=>{try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings));}catch{}};
+  // Persist first-run defaults only after storage helpers are initialized (avoid temporal-dead-zone startup crash).
+  if(seedTasks) saveTasks();
+  if(seedProjects) saveProjects();
   const esc = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const projectFor=id=>projects.find(p=>p.id===id);
   const getOpen=()=>tasks.filter(t=>t.status!=='completed');
