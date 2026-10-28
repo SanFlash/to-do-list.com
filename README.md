@@ -124,7 +124,7 @@ python -m http.server 4173
 
 Open **http://localhost:4173**.
 
-GSAP is loaded from jsDelivr. Core task functionality remains plain JavaScript; if the animation CDN is unavailable, the app can still be used.
+GSAP and Three.js are loaded from jsDelivr. Core task functionality remains plain JavaScript; if the animation CDN/WebGL is unavailable, the task app can still be used and the hero falls back to CSS artwork.
 
 ## ☁️ Deploy to Vercel
 
@@ -143,7 +143,8 @@ to-do-list.com/
 ├── index.html                      # Semantic app shell and views
 ├── style.css                       # Responsive layout and visual system
 ├── script.js                       # Task state, local persistence and app logic
-├── motion.js                       # Ambient canvas and GSAP choreography
+├── motion.js                       # Ambient canvas, UI motion and GSAP choreography
+├── visuals.js                      # GSAP + Three.js real-time 3D visual engine
 ├── vercel.json                     # Static deployment configuration
 └── README.md                       # This project guide
 ```
