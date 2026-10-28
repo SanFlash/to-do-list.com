@@ -14,6 +14,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/Flip.min.js"></script>
   <script defer src="/script.js"></script>
   <script defer src="/motion.js"></script>
+  <script type="module" src="/visuals.js"></script>
 </head>
 <body>
   <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -62,6 +63,7 @@
             <p class="welcome-subtitle">A little progress, consistently made, becomes something remarkable.</p>
           </div>
           <div class="hero-art" aria-label="Abstract animated three-dimensional glass sculpture">
+            <div id="visual-stage" class="visual-stage" aria-hidden="true"></div>
             <div class="hero-art-glow"></div>
             <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
             <div class="hero-crystal"><div class="crystal-face face-a"></div><div class="crystal-face face-b"></div><div class="crystal-core"></div></div>
