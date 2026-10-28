@@ -173,7 +173,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
       dust.rotation.y += delta * .012;
       dust.rotation.z += delta * .004;
       objects.forEach(obj => {
-        if (obj.userData.floatY !== undefined) obj.position.y += Math.sin(time * .00065 + obj.userData.phase) * .0009;
+        if (obj.userData.floatY !== undefined) obj.position.y = obj.userData.floatY + Math.sin(time * .00065 + obj.userData.phase) * .12;
       });
       renderer.render(scene, camera);
       frame = requestAnimationFrame(render);
