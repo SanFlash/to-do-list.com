@@ -104,3 +104,25 @@ body.light-theme .stat-card:hover{box-shadow:0 20px 48px rgba(65,50,24,.08),inse
 }
 body.motion-reduced .motion-canvas,body.motion-reduced .ambient-rings{display:none!important}
 body.motion-reduced *{animation:none!important;transition:none!important}
+
+
+/* ── GSAP / THREE.JS 3D VISUAL STAGE ────────────────────────── */
+.hero-art{isolation:isolate;overflow:visible}
+.visual-stage{position:absolute;inset:-12% -15% -9% -15%;z-index:1;pointer-events:none;opacity:.94;overflow:visible;transform:translateZ(0)}
+.visual-webgl{display:block;width:100%;height:100%;outline:none}
+.hero-art-glow,.orbit,.hero-crystal{z-index:2}
+.hero-art-glow{mix-blend-mode:screen}
+.hero-crystal{opacity:.82}
+.hero-art-caption{position:relative;z-index:3}
+.visual-stage-fallback{background:radial-gradient(ellipse at 65% 48%,rgba(214,183,122,.13),transparent 38%),radial-gradient(ellipse at 58% 42%,rgba(169,154,249,.1),transparent 55%)}
+.visual-stage-fallback:after{content:"";position:absolute;width:58%;aspect-ratio:1;top:18%;left:26%;border:1px solid rgba(214,183,122,.22);border-radius:42% 58% 63% 37%;transform:rotate(35deg);box-shadow:inset 0 0 30px rgba(214,183,122,.05),0 0 40px rgba(214,183,122,.06);animation:visual-fallback-float 8s ease-in-out infinite alternate}
+@keyframes visual-fallback-float{to{transform:translate3d(0,-12px,0) rotate(75deg);border-radius:58% 42% 36% 64%}}
+.visual-stage canvas{position:absolute;inset:0}
+@media(max-width:760px){
+  .visual-stage{inset:-4% -13% -5% -13%;opacity:.7}
+  .hero-art{overflow:hidden}
+}
+@media(prefers-reduced-motion:reduce){
+  .visual-stage-fallback:after{animation:none}
+}
+body.motion-reduced .visual-stage-fallback:after{animation:none}
