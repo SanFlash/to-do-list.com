@@ -69,8 +69,27 @@
     window.addEventListener('resize', resize, { passive: true });
     window.addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
-    const motionObserver = new MutationObserver(() => { if (reduced()) stop(); else start(); });
+    const motionObserver = new MutationObserver(() => {
+      if (reduced()) {
+        stop();
+        if (window.gsap) window.gsap.globalTimeline.pause();
+      } else {
+        start();
+        if (window.gsap) window.gsap.globalTimeline.resume();
+      }
+    });
     motionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    // The legacy app keeps its persisted reduced-motion preference on body.
+    const bodyMotionObserver = new MutationObserver(() => {
+      if (reduced()) {
+        stop();
+        if (window.gsap) window.gsap.globalTimeline.pause();
+      } else {
+        start();
+        if (window.gsap) window.gsap.globalTimeline.resume();
+      }
+    });
+    bodyMotionObserver.observe(body, { attributes: true, attributeFilter: ['class'] });
 
     // The animation layer is deliberately additive: no task state or app controls are changed.
     if (!reduced() && window.gsap) {
